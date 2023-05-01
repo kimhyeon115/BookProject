@@ -65,17 +65,51 @@ public class WinMain extends JDialog {
 		JMenu mnuBookManger = new JMenu("도서관리");
 		menuBar.add(mnuBookManger);
 		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("도서 등록...");
-		mnuBookManger.add(mntmNewMenuItem_1);
+		JMenuItem mnuBookAdd = new JMenuItem("도서 등록...");
+		mnuBookAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WinBookInsert winBookInsert = new WinBookInsert();
+				winBookInsert.setModal(true);
+				winBookInsert.setVisible(true);
+			}
+		});
+		mnuBookManger.add(mnuBookAdd);
 		
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("도서 삭제...");
-		mnuBookManger.add(mntmNewMenuItem_2);
+		JMenuItem mnuBookRemove = new JMenuItem("도서 삭제...");
+		mnuBookRemove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WinBookDelete winBookDelete = new WinBookDelete();
+				winBookDelete.setModal(true);
+				winBookDelete.setVisible(true);
+			}
+		});
+		mnuBookManger.add(mnuBookRemove);
 		
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("도서 변경...");
-		mnuBookManger.add(mntmNewMenuItem_3);
+		JMenuItem mnuBookUpdate = new JMenuItem("도서 변경...");
+		mnuBookUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WinBookUpdate winBookUpdate = new WinBookUpdate();
+				winBookUpdate.setModal(true);
+				winBookUpdate.setVisible(true);
+				
+			}
+		});
+		mnuBookManger.add(mnuBookUpdate);
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("도서 조회...");
-		mnuBookManger.add(mntmNewMenuItem);
+		JMenuItem mnuBookSelect = new JMenuItem("도서 조회...");
+		mnuBookManger.add(mnuBookSelect);
+		
+		mnuBookManger.addSeparator();
+		
+		JMenuItem mnuAllShow = new JMenuItem("모든 책 보기...");
+		mnuAllShow.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WinBookDetails winBookDetails = new WinBookDetails();
+				winBookDetails.setModal(true);
+				winBookDetails.setVisible(true);
+			}
+		});
+		mnuBookManger.add(mnuAllShow);
 		
 		JMenu mnNewMenu = new JMenu("Help");
 		mnNewMenu.setMnemonic('H');
@@ -95,20 +129,13 @@ public class WinMain extends JDialog {
 		
 		JButton btnNewButton_2 = new JButton("변경");
 		toolBar.add(btnNewButton_2);
-		
+				
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
 		String columns[] = {"ISBN","제목","저자","출판사","이미지URL","출판일","가격","책 소개"};
 		DefaultTableModel dtm = new DefaultTableModel(columns,0);
-		table = new JTable(dtm);
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-				
-			}
-		});
+		table = new JTable(dtm);		
 		
 		JPopupMenu popupMenu = new JPopupMenu();
 		addPopup(table, popupMenu);
@@ -139,6 +166,7 @@ public class WinMain extends JDialog {
 		popupMenu.add(mnuUpdate);
 		
 		scrollPane.setViewportView(table);
+			
 		
 		showRecords(dtm);
 
@@ -160,6 +188,7 @@ public class WinMain extends JDialog {
 				dtm.addRow(vector);
 			}
 		} catch (ClassNotFoundException | SQLException e1) {
+			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
@@ -188,4 +217,5 @@ public class WinMain extends JDialog {
 			}
 		});
 	}
+	
 }
