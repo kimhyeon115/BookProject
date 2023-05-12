@@ -24,6 +24,10 @@ import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.WindowFocusListener;
+import java.awt.event.WindowEvent;
 
 public class WinMain extends JDialog {
 	private JTable table;
@@ -49,6 +53,20 @@ public class WinMain extends JDialog {
 	 * Create the dialog.
 	 */
 	public WinMain() {
+		addWindowFocusListener(new WindowFocusListener() {
+			public void windowGainedFocus(WindowEvent e) {
+				
+				DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+				showRecords(dtm);				
+			}
+			public void windowLostFocus(WindowEvent e) {
+			}
+		});
+		addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {				
+			}
+		});
 		setTitle("도서 관리 프로그램");
 		setBounds(100, 100, 1178, 634);
 		
@@ -78,20 +96,35 @@ public class WinMain extends JDialog {
 		JMenuItem mnuBookRemove = new JMenuItem("도서 삭제...");
 		mnuBookRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				WinBookDelete winBookDelete = new WinBookDelete();
-				winBookDelete.setModal(true);
-				winBookDelete.setVisible(true);
+				int row = table.getSelectedRow();				
+				if(row == -1) {
+					WinCondition winCondition = new WinCondition();
+					winCondition.setModal(true);
+					winCondition.setVisible(true);					
+				} else {
+					String sISBN = table.getValueAt(row, 0).toString();
+					WinBookDelete winBookDelete = new WinBookDelete(sISBN);
+					winBookDelete.setModal(true);
+					winBookDelete.setVisible(true);
+				}
 			}
 		});
 		mnuBookManger.add(mnuBookRemove);
 		
 		JMenuItem mnuBookUpdate = new JMenuItem("도서 변경...");
 		mnuBookUpdate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				WinBookUpdate winBookUpdate = new WinBookUpdate();
-				winBookUpdate.setModal(true);
-				winBookUpdate.setVisible(true);
-				
+			public void actionPerformed(ActionEvent e) {	
+				int row = table.getSelectedRow();				
+				if(row == -1) {
+					WinCondition winCondition = new WinCondition();
+					winCondition.setModal(true);
+					winCondition.setVisible(true);	
+				} else {
+					String sISBN = table.getValueAt(row, 0).toString();	
+					WinBookUpdate winBookUpdate = new WinBookUpdate();
+					winBookUpdate.setModal(true);
+					winBookUpdate.setVisible(true);
+				}				
 			}
 		});
 		mnuBookManger.add(mnuBookUpdate);
@@ -160,19 +193,37 @@ public class WinMain extends JDialog {
 		popupMenu.add(mnuDetail);
 		
 		JMenuItem mnuDelete = new JMenuItem("삭제...");
+		mnuDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int row = table.getSelectedRow();
+				String sISBN = table.getValueAt(row, 0).toString();
+				WinBookDelete winBookDelete = new WinBookDelete(sISBN);
+				winBookDelete.setModal(true);
+				winBookDelete.setVisible(true);				
+			}
+		});
 		popupMenu.add(mnuDelete);
 		
 		JMenuItem mnuUpdate = new JMenuItem("변경...");
+		mnuUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int row = table.getSelectedRow();
+				String sISBN = table.getValueAt(row, 0).toString();
+				WinBookUpdate winBookUpdate = new WinBookUpdate(sISBN);
+				winBookUpdate.setModal(true);
+				winBookUpdate.setVisible(true);
+			}
+		});
 		popupMenu.add(mnuUpdate);
 		
-		scrollPane.setViewportView(table);
-			
+		scrollPane.setViewportView(table);			
 		
 		showRecords(dtm);
 
 	}
 
 	private void showRecords(DefaultTableModel dtm) {
+		dtm.setRowCount(0);
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sqlDB","root","1234");						

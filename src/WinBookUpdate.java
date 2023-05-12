@@ -25,12 +25,15 @@ public class WinBookUpdate extends JDialog {
 	 * Create the dialog.
 	 */
 	public WinBookUpdate() {
+		this("");
+	}
+
+	public WinBookUpdate(String sISBN) {
+		
 		setTitle("\uB3C4\uC11C \uBCC0\uACBD");
 		setBounds(100, 100, 685, 548);
 		
-		Book book = new Book(3);
+		Book book = new Book(3,sISBN);
 		getContentPane().add(book);
-
 	}
-
 }
