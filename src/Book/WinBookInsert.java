@@ -1,8 +1,10 @@
+package Book;
+
 import java.awt.EventQueue;
 
 import javax.swing.JDialog;
 
-public class WinBookDelete extends JDialog {
+public class WinBookInsert extends JDialog {
 
 	/**
 	 * Launch the application.
@@ -11,7 +13,7 @@ public class WinBookDelete extends JDialog {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					WinBookDelete dialog = new WinBookDelete();
+					WinBookInsert dialog = new WinBookInsert();
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (Exception e) {
@@ -24,15 +26,13 @@ public class WinBookDelete extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public WinBookDelete() {
-		this("");
-	}
-	
-	public WinBookDelete(String sISBN) {
-		setTitle("도서 삭제");
-		setBounds(100, 100, 675, 543);
+	public WinBookInsert() {
+		setTitle("\uB3C4\uC11C \uCD94\uAC00");
+		setBounds(100, 100, 683, 544);
 		
-		Book book = new Book(2,sISBN);
-		getContentPane().add(book);	
+		Book book = new Book(1);
+		getContentPane().add(book);
+
 	}
+
 }

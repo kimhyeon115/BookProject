@@ -1,8 +1,10 @@
+package member;
+
 import java.awt.EventQueue;
 
 import javax.swing.JDialog;
 
-public class WinBookUpdate extends JDialog {
+public class WinMemberRemove extends JDialog {
 
 	/**
 	 * Launch the application.
@@ -11,7 +13,7 @@ public class WinBookUpdate extends JDialog {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					WinBookUpdate dialog = new WinBookUpdate();
+					WinMemberRemove dialog = new WinMemberRemove();
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (Exception e) {
@@ -24,16 +26,16 @@ public class WinBookUpdate extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public WinBookUpdate() {
-		this("");
+	public WinMemberRemove() {
+		setBounds(100, 100, 622, 484);
+		setTitle("È¸¿ø Å»ÅðÃ¢");
+
 	}
 
-	public WinBookUpdate(String sISBN) {
-		
-		setTitle("\uB3C4\uC11C \uBCC0\uACBD");
-		setBounds(100, 100, 685, 548);
-		
-		Book book = new Book(3,sISBN);
-		getContentPane().add(book);
+	public WinMemberRemove(int type) {
+		this();
+		Member member = new Member(type);
+		getContentPane().add(member);
 	}
+
 }

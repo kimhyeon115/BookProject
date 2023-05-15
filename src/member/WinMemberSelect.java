@@ -1,8 +1,10 @@
+package member;
+
 import java.awt.EventQueue;
 
 import javax.swing.JDialog;
 
-public class WinBookInsert extends JDialog {
+public class WinMemberSelect extends JDialog {
 
 	/**
 	 * Launch the application.
@@ -11,7 +13,7 @@ public class WinBookInsert extends JDialog {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					WinBookInsert dialog = new WinBookInsert();
+					WinMemberSelect dialog = new WinMemberSelect();
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (Exception e) {
@@ -24,13 +26,16 @@ public class WinBookInsert extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public WinBookInsert() {
-		setTitle("\uB3C4\uC11C \uCD94\uAC00");
-		setBounds(100, 100, 683, 544);
-		
-		Book book = new Book(1);
-		getContentPane().add(book);
+	public WinMemberSelect() {
+		setBounds(100, 100, 622, 484);
+		setTitle("회원 검색창");
 
+	}
+
+	public WinMemberSelect(int type) {
+		this();
+		Member member = new Member(type);
+		getContentPane().add(member);
 	}
 
 }

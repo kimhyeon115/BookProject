@@ -1,3 +1,4 @@
+
 import java.awt.EventQueue;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,8 +11,20 @@ import javax.swing.JDialog;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
 import javax.swing.table.DefaultTableModel;
+
+import Book.WinBookDelete;
+import Book.WinBookDetail;
+import Book.WinBookDetails;
+import Book.WinBookInsert;
+import Book.WinBookUpdate;
+import Book.WinCondition;
+import member.WinMemberAdd;
+import member.WinMemberRemove;
+import member.WinMemberSelect;
+import member.WinMemberUpdate;
 
 import java.awt.BorderLayout;
 import javax.swing.JButton;
@@ -28,6 +41,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowEvent;
+import javax.swing.JSeparator;
 
 public class WinMain extends JDialog {
 	private JTable table;
@@ -67,7 +81,7 @@ public class WinMain extends JDialog {
 			public void focusGained(FocusEvent e) {				
 			}
 		});
-		setTitle("µµº≠ ∞¸∏Æ «¡∑Œ±◊∑•");
+		setTitle("ÎèÑÏÑú Í¥ÄÎ¶¨ ÌîÑÎ°úÍ∑∏Îû®");
 		setBounds(100, 100, 1178, 634);
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -78,12 +92,17 @@ public class WinMain extends JDialog {
 		menuBar.add(mnuFile);
 		
 		JMenuItem mnuExit = new JMenuItem("Exit");
+		mnuExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 		mnuFile.add(mnuExit);
 		
-		JMenu mnuBookManger = new JMenu("µµº≠∞¸∏Æ");
+		JMenu mnuBookManger = new JMenu("ÎèÑÏÑúÍ¥ÄÎ¶¨");
 		menuBar.add(mnuBookManger);
 		
-		JMenuItem mnuBookAdd = new JMenuItem("µµº≠ µÓ∑œ...");
+		JMenuItem mnuBookAdd = new JMenuItem("ÎèÑÏÑú Îì±Î°ù...");
 		mnuBookAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				WinBookInsert winBookInsert = new WinBookInsert();
@@ -93,7 +112,7 @@ public class WinMain extends JDialog {
 		});
 		mnuBookManger.add(mnuBookAdd);
 		
-		JMenuItem mnuBookRemove = new JMenuItem("µµº≠ ªË¡¶...");
+		JMenuItem mnuBookRemove = new JMenuItem("ÎèÑÏÑú ÏÇ≠Ï†ú...");
 		mnuBookRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int row = table.getSelectedRow();				
@@ -111,7 +130,7 @@ public class WinMain extends JDialog {
 		});
 		mnuBookManger.add(mnuBookRemove);
 		
-		JMenuItem mnuBookUpdate = new JMenuItem("µµº≠ ∫Ø∞Ê...");
+		JMenuItem mnuBookUpdate = new JMenuItem("ÎèÑÏÑú Î≥ÄÍ≤Ω...");
 		mnuBookUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {	
 				int row = table.getSelectedRow();				
@@ -129,12 +148,12 @@ public class WinMain extends JDialog {
 		});
 		mnuBookManger.add(mnuBookUpdate);
 		
-		JMenuItem mnuBookSelect = new JMenuItem("µµº≠ ¡∂»∏...");
+		JMenuItem mnuBookSelect = new JMenuItem("ÎèÑÏÑú Ï°∞Ìöå...");
 		mnuBookManger.add(mnuBookSelect);
 		
 		mnuBookManger.addSeparator();
 		
-		JMenuItem mnuAllShow = new JMenuItem("∏µÁ √• ∫∏±‚...");
+		JMenuItem mnuAllShow = new JMenuItem("Î™®Îì† Ï±Ö Î≥¥Í∏∞...");
 		mnuAllShow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				WinBookDetails winBookDetails = new WinBookDetails();
@@ -144,36 +163,90 @@ public class WinMain extends JDialog {
 		});
 		mnuBookManger.add(mnuAllShow);
 		
+		JMenu mnMemberManager = new JMenu("\uD68C\uC6D0\uAD00\uB9AC");
+		menuBar.add(mnMemberManager);
+		
+		JMenuItem mnuMemberAdd = new JMenuItem("\uD68C\uC6D0 \uAC00\uC785...");
+		mnuMemberAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WinMemberAdd winmemberAdd = new WinMemberAdd(1);
+				winmemberAdd.setModal(true);
+				winmemberAdd.setVisible(true);
+			}
+		});
+		mnMemberManager.add(mnuMemberAdd);
+		
+		JMenuItem mnuMemberRemove = new JMenuItem("\uD68C\uC6D0 \uD0C8\uD1F4...");
+		mnuMemberRemove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WinMemberRemove winMemberRemove = new WinMemberRemove(2);
+				winMemberRemove.setModal(true);
+				winMemberRemove.setVisible(true);
+			}
+		});
+		mnMemberManager.add(mnuMemberRemove);
+		
+		JMenuItem mnuMemberUpdate = new JMenuItem("\uD68C\uC6D0 \uBCC0\uACBD...");
+		mnuMemberUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WinMemberUpdate winMemberUpdate = new WinMemberUpdate(3);
+				winMemberUpdate.setModal(true);
+				winMemberUpdate.setVisible(true);
+			}
+		});
+		mnMemberManager.add(mnuMemberUpdate);
+		
+		JMenuItem mnuMemberSelect = new JMenuItem("\uD68C\uC6D0 \uC870\uD68C...");
+		mnuMemberSelect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WinMemberSelect winMemberSelect = new WinMemberSelect(4);
+				winMemberSelect.setModal(true);
+				winMemberSelect.setVisible(true);		
+			}
+		});
+		mnMemberManager.add(mnuMemberSelect);
+		
+		JSeparator separator = new JSeparator();
+		mnMemberManager.add(separator);
+		
+		JMenuItem mnuMemberAllShow = new JMenuItem("\uBAA8\uB4E0 \uD68C\uC6D0 \uBCF4\uAE30...");
+		mnMemberManager.add(mnuMemberAllShow);
+		
 		JMenu mnNewMenu = new JMenu("Help");
 		mnNewMenu.setMnemonic('H');
 		menuBar.add(mnNewMenu);
 		
-		JMenuItem mntmNewMenuItem_4 = new JMenuItem("»∏ªÁ ¡§∫∏...");
+		JMenuItem mntmNewMenuItem_4 = new JMenuItem("ÌöåÏÇ¨ Ï†ïÎ≥¥...");
+		mntmNewMenuItem_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "2023 ¬© rights");
+			}
+		});
 		mnNewMenu.add(mntmNewMenuItem_4);
 		
 		JToolBar toolBar = new JToolBar();
 		getContentPane().add(toolBar, BorderLayout.NORTH);
 		
-		JButton btnNewButton = new JButton("¡æ∑·");
+		JButton btnNewButton = new JButton("Ï¢ÖÎ£å");
 		toolBar.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("µÓ∑œ");
+		JButton btnNewButton_1 = new JButton("Îì±Î°ù");
 		toolBar.add(btnNewButton_1);
 		
-		JButton btnNewButton_2 = new JButton("∫Ø∞Ê");
+		JButton btnNewButton_2 = new JButton("Î≥ÄÍ≤Ω");
 		toolBar.add(btnNewButton_2);
 				
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
-		String columns[] = {"ISBN","¡¶∏Ò","¿˙¿⁄","√‚∆«ªÁ","¿ÃπÃ¡ˆURL","√‚∆«¿œ","∞°∞›","√• º“∞≥"};
+		String columns[] = {"ISBN","Ï†úÎ™©","Ï†ÄÏûê","Ï∂úÌåêÏÇ¨","Ïù¥ÎØ∏ÏßÄURL","Ï∂úÌåêÏùº","Í∞ÄÍ≤©","Ï±Ö ÏÜåÍ∞ú"};
 		DefaultTableModel dtm = new DefaultTableModel(columns,0);
 		table = new JTable(dtm);		
 		
 		JPopupMenu popupMenu = new JPopupMenu();
 		addPopup(table, popupMenu);
 		
-		JMenuItem mnuDetail = new JMenuItem("¿⁄ºº»˜...");
+		JMenuItem mnuDetail = new JMenuItem("ÏûêÏÑ∏Ìûà...");
 		mnuDetail.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int row = table.getSelectedRow();
@@ -192,7 +265,7 @@ public class WinMain extends JDialog {
 		});
 		popupMenu.add(mnuDetail);
 		
-		JMenuItem mnuDelete = new JMenuItem("ªË¡¶...");
+		JMenuItem mnuDelete = new JMenuItem("ÏÇ≠Ï†ú...");
 		mnuDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int row = table.getSelectedRow();
@@ -204,7 +277,7 @@ public class WinMain extends JDialog {
 		});
 		popupMenu.add(mnuDelete);
 		
-		JMenuItem mnuUpdate = new JMenuItem("∫Ø∞Ê...");
+		JMenuItem mnuUpdate = new JMenuItem("Î≥ÄÍ≤Ω...");
 		mnuUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int row = table.getSelectedRow();
@@ -219,7 +292,6 @@ public class WinMain extends JDialog {
 		scrollPane.setViewportView(table);			
 		
 		showRecords(dtm);
-
 	}
 
 	private void showRecords(DefaultTableModel dtm) {
@@ -239,7 +311,6 @@ public class WinMain extends JDialog {
 				dtm.addRow(vector);
 			}
 		} catch (ClassNotFoundException | SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
@@ -257,7 +328,7 @@ public class WinMain extends JDialog {
 					int row = source.rowAtPoint(e.getPoint());
 					int column = source.columnAtPoint(e.getPoint());
 					
-					if(!source.isRowSelected(row))  // «‡¿Ã º±≈√µ«¡ˆ æ æ“¥Ÿ∏È ±◊ «‡¿ª º±≈√«—¥Ÿ.
+					if(!source.isRowSelected(row))  // ÌñâÏù¥ ÏÑ†ÌÉùÎêòÏßÄ ÏïäÏïòÎã§Î©¥ Í∑∏ ÌñâÏùÑ ÏÑ†ÌÉùÌïúÎã§.
 						source.changeSelection(row, column, false, false);
 					
 					showMenu(e);
