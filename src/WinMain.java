@@ -117,7 +117,7 @@ public class WinMain extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				int row = table.getSelectedRow();				
 				if(row == -1) {
-					WinCondition winCondition = new WinCondition();
+					WinCondition winCondition = new WinCondition(2);
 					winCondition.setModal(true);
 					winCondition.setVisible(true);					
 				} else {
@@ -135,7 +135,7 @@ public class WinMain extends JDialog {
 			public void actionPerformed(ActionEvent e) {	
 				int row = table.getSelectedRow();				
 				if(row == -1) {
-					WinCondition winCondition = new WinCondition();
+					WinCondition winCondition = new WinCondition(3);
 					winCondition.setModal(true);
 					winCondition.setVisible(true);	
 				} else {
@@ -163,10 +163,10 @@ public class WinMain extends JDialog {
 		});
 		mnuBookManger.add(mnuAllShow);
 		
-		JMenu mnMemberManager = new JMenu("\uD68C\uC6D0\uAD00\uB9AC");
+		JMenu mnMemberManager = new JMenu("회원관리");
 		menuBar.add(mnMemberManager);
 		
-		JMenuItem mnuMemberAdd = new JMenuItem("\uD68C\uC6D0 \uAC00\uC785...");
+		JMenuItem mnuMemberAdd = new JMenuItem("회원 가입...");
 		mnuMemberAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				WinMemberAdd winmemberAdd = new WinMemberAdd(1);
@@ -176,7 +176,7 @@ public class WinMain extends JDialog {
 		});
 		mnMemberManager.add(mnuMemberAdd);
 		
-		JMenuItem mnuMemberRemove = new JMenuItem("\uD68C\uC6D0 \uD0C8\uD1F4...");
+		JMenuItem mnuMemberRemove = new JMenuItem("회원 삭제...");
 		mnuMemberRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				WinMemberRemove winMemberRemove = new WinMemberRemove(2);
@@ -186,7 +186,7 @@ public class WinMain extends JDialog {
 		});
 		mnMemberManager.add(mnuMemberRemove);
 		
-		JMenuItem mnuMemberUpdate = new JMenuItem("\uD68C\uC6D0 \uBCC0\uACBD...");
+		JMenuItem mnuMemberUpdate = new JMenuItem("회원 변경...");
 		mnuMemberUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				WinMemberUpdate winMemberUpdate = new WinMemberUpdate(3);
@@ -196,7 +196,7 @@ public class WinMain extends JDialog {
 		});
 		mnMemberManager.add(mnuMemberUpdate);
 		
-		JMenuItem mnuMemberSelect = new JMenuItem("\uD68C\uC6D0 \uC870\uD68C...");
+		JMenuItem mnuMemberSelect = new JMenuItem("회원 조회...");
 		mnuMemberSelect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				WinMemberSelect winMemberSelect = new WinMemberSelect(4);
@@ -209,7 +209,7 @@ public class WinMain extends JDialog {
 		JSeparator separator = new JSeparator();
 		mnMemberManager.add(separator);
 		
-		JMenuItem mnuMemberAllShow = new JMenuItem("\uBAA8\uB4E0 \uD68C\uC6D0 \uBCF4\uAE30...");
+		JMenuItem mnuMemberAllShow = new JMenuItem("모든 회원 보기...");
 		mnMemberManager.add(mnuMemberAllShow);
 		
 		JMenu mnNewMenu = new JMenu("Help");
@@ -228,6 +228,11 @@ public class WinMain extends JDialog {
 		getContentPane().add(toolBar, BorderLayout.NORTH);
 		
 		JButton btnNewButton = new JButton("종료");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 		toolBar.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("등록");

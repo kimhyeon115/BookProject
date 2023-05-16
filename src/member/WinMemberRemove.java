@@ -29,7 +29,6 @@ public class WinMemberRemove extends JDialog {
 	public WinMemberRemove() {
 		setBounds(100, 100, 622, 484);
 		setTitle("È¸¿ø Å»ÅðÃ¢");
-
 	}
 
 	public WinMemberRemove(int type) {

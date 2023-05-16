@@ -159,7 +159,7 @@ public class Member extends JPanel {
 						ResultSet rs = pstmt.executeQuery();
 						
 						while(rs.next()) {
-							if(rs.getInt(1) ==1 ) {
+							if(rs.getInt(1) == 1) {
 								bOne = true;
 							} else if(rs.getInt(1) > 1) {
 								bOne = false;
@@ -214,7 +214,7 @@ public class Member extends JPanel {
 		tfBirth.setBounds(184, 250, 116, 21);
 		add(tfBirth);
 		
-		chkSorlarLunar = new JCheckBox("\uC591\uB825");
+		chkSorlarLunar = new JCheckBox("양력");
 		chkSorlarLunar.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if(chkSorlarLunar.isSelected()) {
@@ -359,17 +359,24 @@ public class Member extends JPanel {
 		lblBirth_1.setBounds(419, 253, 32, 15);
 		add(lblBirth_1);
 		
-		btnMemberChoice = new JButton("\uD68C\uC6D0 \uB4F1\uB85D");
+		btnMemberChoice = new JButton("회원 등록");
 		btnMemberChoice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(number == 1) {
 					insertRecord();
+				} else if(number ==2) {
+					deleteRecord();
 				}
 			}
 		});
 		btnMemberChoice.setBounds(239, 368, 97, 32);
 		add(btnMemberChoice);
 
+	}
+
+	protected void deleteRecord() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	protected void showRecord(String sEmail) {
@@ -400,13 +407,10 @@ public class Member extends JPanel {
 				icon = new ImageIcon(image);
 				lblPic.setIcon(icon);
 				path = path.replaceAll("\\\\", "\\\\\\\\");
-			}
-		
-			
+			}			
 		} catch (ClassNotFoundException | SQLException e1) {
 			e1.printStackTrace();
-		}
-		
+		}		
 	}
 
 	protected void insertRecord() {
@@ -424,9 +428,9 @@ public class Member extends JPanel {
 			pstmt.setString(5, tfMobile.getText());
 			pstmt.setString(6, tfBirth.getText());
 			if(chkSorlarLunar.isSelected()) {
-				pstmt.setInt(7, 0);
-			} else {
 				pstmt.setInt(7, 1);
+			} else {
+				pstmt.setInt(7, 0);
 			}			
 			pstmt.setString(8, tfAddress.getText() + " " + tfAddressDetail.getText());
 			pstmt.setString(9, path);
@@ -473,5 +477,14 @@ public class Member extends JPanel {
 		tfAddress.setText(searchDoro.getAddress());
 		
 		tfAddressDetail.requestFocus();
+	}
+	
+	protected int getCountHyphen(String text) {
+		int count = 0;
+		for(int i=0; i<text.length();i++)
+			if(text.charAt(i) == '-')
+				count++;
+		
+		return count;
 	}
 }
