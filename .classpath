@@ -7,5 +7,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/rlagus/file/mysql-connector-java-8.0.25.jar"/>
+	<classpathentry kind="lib" path="C:/rlagus/winbuilder/JSplashScreen.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
