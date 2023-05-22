@@ -101,40 +101,39 @@ public class WinCondition extends JDialog {
 		btnSearch.setBounds(152, 138, 116, 23);
 		getContentPane().add(btnSearch);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.addMouseListener(new MouseAdapter() {
+		JScrollPane scrollPane = new JScrollPane();		
+		scrollPane.setBounds(12, 182, 415, 341);
+		getContentPane().add(scrollPane);
+		
+		String columnNames[] = { "ISBN", "Title", "Price" };
+		DefaultTableModel dtm = new DefaultTableModel(columnNames, 0);
+		table = new JTable(dtm);
+		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
 				int row = table.getSelectedRow();
-				if(row == -1) {
-					
-				} else {
-					if(JOptionPane.showConfirmDialog(null, "선택 페이지 이동..") == JOptionPane.YES_OPTION) {
+				if(row==-1)
+					;
+				else {
+					if(JOptionPane.showConfirmDialog(null, "이동할까요?")==JOptionPane.YES_OPTION) {
 						String sISBN = table.getValueAt(row, 0).toString();
+						dispose();
+						
 						if(type==2) {
 							WinBookDelete winBookDelete = new WinBookDelete(sISBN);
 							winBookDelete.setModal(true);
 							winBookDelete.setVisible(true);
-						} else if(type == 3) {
+						}else if(type == 3) {
 							WinBookUpdate winBookUpdate = new WinBookUpdate(sISBN);
 							winBookUpdate.setModal(true);
 							winBookUpdate.setVisible(true);
-					    }
-						dispose();
-				    }				
-			    }
+						}
+						
+					}
+				}
 			}
 		});
-		
-		scrollPane.setBounds(12, 182, 415, 341);
-		getContentPane().add(scrollPane);
-		
-		String columnNames[] = { "ISBN", "Title", "Discount" };
-		DefaultTableModel dtm = new DefaultTableModel(columnNames, 0);		
-		table = new JTable(dtm);
 		scrollPane.setViewportView(table);
-
 	}
 	
 	public WinCondition(int number) {

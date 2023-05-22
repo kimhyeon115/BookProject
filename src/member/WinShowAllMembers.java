@@ -6,6 +6,11 @@ import javax.swing.JDialog;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.ScrollPane;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -48,15 +53,67 @@ public class WinShowAllMembers extends JDialog {
 		GridLayout gridLayout = new GridLayout(0, 1, 0, 10);
 		person.setLayout(gridLayout);
 		
-		Member[] member = new Member[10];
-		person.setPreferredSize(new Dimension(520, 3600));
-		for(int i=0; i<member.length; i++) {			
-			member[i] = new Member();
-			person.add(member[i]);
-		}
-		JScrollPane jsp = new JScrollPane(person,
+		int RecordNumber = showMeTheRecords();
+		
+		Member[] member = new Member[RecordNumber];
+		person.setPreferredSize(new Dimension(520, 360*RecordNumber));
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sqlDB","root","1234");						
+			Statement stmt = con.createStatement();
+			
+			String sql = "select * from memberTBL";			
+			ResultSet rs = stmt.executeQuery(sql);
+			int idx=0;
+			while(rs.next()) {
+				String sID = rs.getString("id");
+				String sPw = rs.getString("password");
+				String sName = rs.getString("name");
+				String sEmail = rs.getString("email"); 
+				String sMobile = rs.getString("mobile");
+				String sBirth = rs.getString("birth");
+				String sLsType = rs.getString("IsType");
+				String sAddress = rs.getString("address");
+				String sPic = rs.getString("pic");
+				member[idx] = new Member(sID,sPw,sName,sEmail,sMobile,sBirth,sLsType,sAddress,sPic);
+				person.add(member[idx++]);
+			}			
+			
+		} catch (ClassNotFoundException | SQLException e1) {
+			e1.printStackTrace();
+		}		
+//		for(int i=0;i<member.length;i++) {			
+//			member[i] = new Member("hello"+i,"hello","홍길동","hello@daum.net","010-1234-1234","2000-01-20",
+//					"1","인천광역시 남동구 주안동 11번지","C:\\FileIO\\kakaoImage\\개그맨64.jpg.jpg" );
+//			person.add(member[i]);
+//		}
+		
+		JScrollPane jsp = new JScrollPane(person, 
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS
+				);
 		container.add(jsp);
 	}
+
+	private int showMeTheRecords() {
+		int number=0;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sqlDB","root","1234");						
+			Statement stmt = con.createStatement();
+			
+			String sql = "select count(*) from memberTBL";			
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				number = rs.getInt(1);
+			}			
+			
+		} catch (ClassNotFoundException | SQLException e1) {
+			e1.printStackTrace();
+		}
+		return number;
+	}
+
 }

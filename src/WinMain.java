@@ -42,35 +42,20 @@ import java.awt.event.FocusEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowEvent;
 import javax.swing.JSeparator;
+import javax.swing.ImageIcon;
+import javax.swing.JTextField;
 
 public class WinMain extends JDialog {
 	private JTable table;
+	private JTextField tfMobile;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					WinMain dialog = new WinMain();
-					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-					dialog.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the dialog.
-	 */
 	public WinMain() {
 		addWindowFocusListener(new WindowFocusListener() {
 			public void windowGainedFocus(WindowEvent e) {
 				
+				String columns[] = {"ISBN","제목","저자","출판사","이미지URL","출판일","가격","책 소개","권수"};
 				DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+				dtm.setColumnIdentifiers(columns);
 				showRecords(dtm);				
 			}
 			public void windowLostFocus(WindowEvent e) {
@@ -82,7 +67,7 @@ public class WinMain extends JDialog {
 			}
 		});
 		setTitle("도서 관리 프로그램");
-		setBounds(100, 100, 1178, 634);
+		setBounds(100, 100, 993, 634);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -227,27 +212,94 @@ public class WinMain extends JDialog {
 		JToolBar toolBar = new JToolBar();
 		getContentPane().add(toolBar, BorderLayout.NORTH);
 		
-		JButton btnNewButton = new JButton("종료");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnMemberSearch = new JButton("");
+		btnMemberSearch.setIcon(new ImageIcon(WinMain.class.getResource("/image/searchUser.png")));
+		btnMemberSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		toolBar.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("등록");
-		toolBar.add(btnNewButton_1);
+		JButton btnBookAdd = new JButton("");
+		btnBookAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WinBookInsert winBookInsert = new WinBookInsert();
+				winBookInsert.setModal(true);
+				winBookInsert.setVisible(true);
+			}
+		});
+		btnBookAdd.setIcon(new ImageIcon(WinMain.class.getResource("/image/bookadd.png")));
+		toolBar.add(btnBookAdd);
 		
-		JButton btnNewButton_2 = new JButton("변경");
-		toolBar.add(btnNewButton_2);
+		JButton btnBookUpdate = new JButton("");
+		btnBookUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int row = table.getSelectedRow();				
+				if(row == -1) {
+					WinCondition winCondition = new WinCondition(3);
+					winCondition.setModal(true);
+					winCondition.setVisible(true);	
+				} else {
+					String sISBN = table.getValueAt(row, 0).toString();	
+					WinBookUpdate winBookUpdate = new WinBookUpdate();
+					winBookUpdate.setModal(true);
+					winBookUpdate.setVisible(true);
+				}
+			}
+		});
+		
+		JButton btnBookRemove = new JButton("");
+		btnBookRemove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int row = table.getSelectedRow();				
+				if(row == -1) {
+					WinCondition winCondition = new WinCondition(2);
+					winCondition.setModal(true);
+					winCondition.setVisible(true);					
+				} else {
+					String sISBN = table.getValueAt(row, 0).toString();
+					WinBookDelete winBookDelete = new WinBookDelete(sISBN);
+					winBookDelete.setModal(true);
+					winBookDelete.setVisible(true);
+				}
+			}
+		});
+		btnBookRemove.setIcon(new ImageIcon(WinMain.class.getResource("/image/bookremove.png")));
+		toolBar.add(btnBookRemove);
+		btnBookUpdate.setIcon(new ImageIcon(WinMain.class.getResource("/image/bookupdate.png")));
+		toolBar.add(btnBookUpdate);
+		
+		JButton btnBookSearch = new JButton("");
+		btnBookSearch.setIcon(new ImageIcon(WinMain.class.getResource("/image/booksearch.png")));
+		toolBar.add(btnBookSearch);
+		
+		toolBar.addSeparator();
+		
+		tfMobile = new JTextField();
+		toolBar.add(tfMobile);
+		tfMobile.setColumns(10);
+		
+		toolBar.addSeparator();
+		
+		JButton btnMemberAdd = new JButton("");
+		btnMemberAdd.setIcon(new ImageIcon(WinMain.class.getResource("/image/addUser.png")));
+		toolBar.add(btnMemberAdd);
+		
+		JButton btnMemberRemove = new JButton("");
+		btnMemberRemove.setIcon(new ImageIcon(WinMain.class.getResource("/image/delUser.png")));
+		toolBar.add(btnMemberRemove);
+		
+		JButton btnMemberUpdate = new JButton("");
+		btnMemberUpdate.setIcon(new ImageIcon(WinMain.class.getResource("/image/showUser.png")));
+		toolBar.add(btnMemberUpdate);
+		toolBar.add(btnMemberSearch);
 				
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
-		String columns[] = {"ISBN","제목","저자","출판사","이미지URL","출판일","가격","책 소개"};
-		DefaultTableModel dtm = new DefaultTableModel(columns,0);
-		table = new JTable(dtm);		
-		
+//		String columns[] = {"ISBN","제목","저자","출판사","이미지URL","출판일","가격","책 소개"};
+//		DefaultTableModel dtm = new DefaultTableModel(columns,0);
+		table = new JTable();
 		JPopupMenu popupMenu = new JPopupMenu();
 		addPopup(table, popupMenu);
 		
@@ -294,9 +346,55 @@ public class WinMain extends JDialog {
 		});
 		popupMenu.add(mnuUpdate);
 		
-		scrollPane.setViewportView(table);			
+		JMenuItem mnuRent = new JMenuItem("대여...");
+		mnuRent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WinRentalSearch winRentalSearch = new WinRentalSearch();
+				winRentalSearch.setModal(true);
+				winRentalSearch.setVisible(true);
+				
+				// id를 전달 받으면 rentaltbl에 isbn, xxxdate 추가하기
+			}
+		});
+		popupMenu.add(mnuRent);
 		
-		showRecords(dtm);
+		scrollPane.setViewportView(table);
+		
+	}
+	
+	public void showMembersByMobile() {
+		String columnNames[] = {"ID","이름","이메일","전화번호","주소"};
+		DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+		dtm.setColumnIdentifiers(columnNames);
+		dtm.setRowCount(0);
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sqlDB","root","1234");						
+			Statement stmt = con.createStatement();
+			
+			String sql = "select * from bookTBL where like '%" + tfMobile.getText() + "%'";
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				Vector<String> vector = new Vector<>();
+				vector.add(rs.getString("id"));
+				vector.add(rs.getString("name"));
+				vector.add(rs.getString("email"));
+				vector.add(rs.getString("mobile"));
+				vector.add(rs.getString("address"));
+				dtm.addRow(vector);
+			}
+		} catch (ClassNotFoundException | SQLException e1) {
+			e1.printStackTrace();
+		}		
+	}
+
+	public WinMain(DefaultTableModel dtm) {
+		this();
+		table.setModel(dtm);
+//		showRecords(dtm);		// 화면 구성한 후 showRecords()함수를 이용하여 테이블에 출력
+		
 	}
 
 	private void showRecords(DefaultTableModel dtm) {
@@ -311,7 +409,7 @@ public class WinMain extends JDialog {
 			
 			while(rs.next()) {
 				Vector<String> vector = new Vector<>();
-				for(int i=1; i<=8; i++)
+				for(int i=1; i<=9; i++)
 					vector.add(rs.getString(i));
 				dtm.addRow(vector);
 			}

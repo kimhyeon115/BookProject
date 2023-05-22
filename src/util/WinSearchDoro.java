@@ -100,10 +100,10 @@ public class WinSearchDoro extends JDialog {
 
 	protected void showAddress() {
 		String doro = tfDoro.getText();
-		//===========================
+
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sqlDB","root","1234");						
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sqldb","root","1234");						
 			Statement stmt = con.createStatement();
 			
 			String sql = "select * from address_table where doro LIKE '%" + doro + "%'";
