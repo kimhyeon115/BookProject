@@ -197,6 +197,15 @@ public class WinMain extends JDialog {
 		JMenuItem mnuMemberAllShow = new JMenuItem("모든 회원 보기...");
 		mnMemberManager.add(mnuMemberAllShow);
 		
+		JMenu mnNewMenu_1 = new JMenu("대여/반납");
+		menuBar.add(mnNewMenu_1);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("도서 대여...");
+		mnNewMenu_1.add(mntmNewMenuItem);
+		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("도서 반납...");
+		mnNewMenu_1.add(mntmNewMenuItem_1);
+		
 		JMenu mnNewMenu = new JMenu("Help");
 		mnNewMenu.setMnemonic('H');
 		menuBar.add(mnNewMenu);
