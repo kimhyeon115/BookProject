@@ -14,7 +14,7 @@ import java.awt.BorderLayout;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class WinRentalList extends JDialog {
+public class WinReturnList extends JDialog {
 	private JTable table;
 
 	/**
@@ -24,7 +24,7 @@ public class WinRentalList extends JDialog {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					WinRentalList dialog = new WinRentalList();
+					WinReturnList dialog = new WinReturnList();
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (Exception e) {
@@ -37,8 +37,8 @@ public class WinRentalList extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public WinRentalList() {
-		setTitle("대여된 책들");
+	public WinReturnList() {
+		setTitle("반납된 책들");
 		setBounds(100, 100, 757, 540);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -59,8 +59,7 @@ public class WinRentalList extends JDialog {
 			String sql = "select R.idx, B.title, M.name, R.rentDate, R.bRental from rentalTBL R";
 			sql = sql + " INNER JOIN bookTBL B ON R.isbn=B.isbn";
 			sql = sql + " INNER JOIN memberTBL M ON R.id=M.id";
-			sql = sql + " where R.bRental=0";
-			
+			sql = sql + " where R.bRental=1";
 			ResultSet rs = stmt.executeQuery(sql);			
 			while(rs.next()) {
 				Vector<String> vector = new Vector<>();

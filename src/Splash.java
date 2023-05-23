@@ -10,48 +10,51 @@ import javax.swing.table.DefaultTableModel;
 
 import com.thehowtotutorial.splashscreen.JSplash;
 
-public class Splash {
 
+public class Splash {
+	
 	private static DefaultTableModel dtm;
 
 	public static void main(String[] args) throws InterruptedException {
-		JSplash splash = new JSplash(Splash.class.getResource("image/loading.png"),
-				true, true, false, "V1", null, Color.RED, Color.BLACK);
+		JSplash splash = new JSplash(Splash.class.getResource("image/bookStore.png"),
+				true,true,false,"V1",null, Color.YELLOW, Color.BLUE);
 		splash.splashOn();
-		
+		//================================
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sqlDB","root","1234");						
-			Statement stmt = con.createStatement();
+			Statement stmt = con.createStatement();			
 			
 			String sql = "select * from bookTBL";
 			ResultSet rs = stmt.executeQuery(sql);
-			
 			int totalNumber = 0;
 			while(rs.next()) {
-				totalNumber++;		// bootbl에 있는 전체 레코드 수를 알아낸다
+				totalNumber++;  // bookTBL에 있는 전체 레코드 수를 알아낸다.
 			}
+			System.out.println("전체 레코드 수: " + totalNumber);
 			
-			sql = "select * from bookTBL order by title";
+			sql = "select * from bookTBL order by title asc";
 			rs = stmt.executeQuery(sql);
-			
 			String columnNames[] = {"ISBN","제목","저자","출판사","이미지URL","출판일","가격","책 소개","권수"};
-			dtm = new DefaultTableModel(columnNames,0);
+			dtm = new DefaultTableModel(columnNames, 0);
+			
 			int num=0;
 			while(rs.next()) {
 				num++;
-				splash.setProgress(100*num/totalNumber, rs.getString("title"));	// num/totalNumber 정수/정수(더블이 아니기에 0나옴)
-				Thread.sleep(5);
+				splash.setProgress(100*num/totalNumber, rs.getString("title"));
+				Thread.sleep(10);
 				
-				Vector<String> vector = new Vector<>();
-				for(int i=0; i<columnNames.length;i++) {
+				Vector <String> vector = new Vector<>();
+				for(int i=0;i<columnNames.length;i++)
 					vector.add(rs.getString(i+1));
-				}
 				dtm.addRow(vector);
 			}
 		} catch (ClassNotFoundException | SQLException e1) {
+			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}		
+		}
+		//=========================
+		
 		splash.splashOff();
 		
 		WinMain winMain = new WinMain(dtm);
