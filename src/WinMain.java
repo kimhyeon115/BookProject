@@ -1,6 +1,4 @@
-
 import java.awt.EventQueue;
-import java.awt.Font;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -14,7 +12,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
-import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import Book.WinBookDelete;
@@ -43,13 +40,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowEvent;
 import javax.swing.JSeparator;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.SwingConstants;
+import java.awt.Font;
 
 public class WinMain extends JDialog {
 	private JTable table;
@@ -379,7 +378,6 @@ public class WinMain extends JDialog {
 					winBookDetail.setModal(true);
 					winBookDetail.setVisible(true);
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}

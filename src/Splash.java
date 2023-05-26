@@ -17,7 +17,7 @@ public class Splash {
 
 	public static void main(String[] args) throws InterruptedException {
 		JSplash splash = new JSplash(Splash.class.getResource("image/bookStore.png"),
-				true,true,false,"V1",null, Color.YELLOW, Color.BLUE);
+				true,true,false,"ver1.4",null, Color.YELLOW, Color.BLUE);
 		splash.splashOn();
 		//================================
 		try {
@@ -30,9 +30,7 @@ public class Splash {
 			int totalNumber = 0;
 			while(rs.next()) {
 				totalNumber++;  // bookTBL에 있는 전체 레코드 수를 알아낸다.
-			}
-			System.out.println("전체 레코드 수: " + totalNumber);
-			
+			}						
 			sql = "select * from bookTBL order by title asc";
 			rs = stmt.executeQuery(sql);
 			String columnNames[] = {"ISBN","제목","저자","출판사","이미지URL","출판일","가격","책 소개","권수"};
@@ -50,10 +48,8 @@ public class Splash {
 				dtm.addRow(vector);
 			}
 		} catch (ClassNotFoundException | SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		//=========================
 		
 		splash.splashOff();
 		
